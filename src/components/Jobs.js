@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Myjobs from './JobsInfos';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+// import Container from '@mui/system/Container';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 
@@ -12,14 +12,8 @@ import { BiRightArrow } from 'react-icons/bi';
 
 export default function Jobs() {
 
-  const [selectedJob, setSelectedJob] = useState('Primeiro Job');
   const [selectedInfo, setSelectedInfo] = useState([]);
   const [value, setValue] = useState(0);
-
-  // const handleJobSelection = ({ target }) => {
-  //   setSelectedJob(target.value);
-  //   console.log('clicou', selectedJob);
-  // }
 
   const changeJob = () => {
     const onlySelected = Myjobs.jobs.filter((selected) => selected.id === value);
@@ -51,63 +45,66 @@ export default function Jobs() {
     );
   }
 
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const TestTabs = styled(Tabs)({
+    // borderLeft: '1px solid #F6E0C2',
+    '& .MuiTabs-indicator': {
+      backgroundColor: '#4A6685',
+    },
+  });
+
+  const TestTab = styled((props) => <Tab disableRipple {...props} />)(({ theme }) => ({
+    textTransform: 'none',
+    minWidth: 0,
+    [theme.breakpoints.up('sm')]: {
+      minWidth: 0,
+    },
+    fontWeight: theme.typography.fontWeightRegular,
+    marginTop: theme.spacing(1),
+    color: 'rgba(255,255,255, 1)',
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:hover': {
+      color: '#4A6685',
+      opacity: 1,
+      backgroundColor: 'rgba(246, 224, 194, 0.3)',
+    },
+    '&.Mui-selected': {
+      color: '#4A6685',
+      fontWeight: theme.typography.fontWeightMedium,
+    },
+    '&.Mui-focusVisible': {
+      backgroundColor: '#F6E0C2',
+    },
+  }));
 
   return (
     <section>
       <div>
         <h3>Experiências</h3>
-        {/* <div className='container-jobs'>
-          <Box
-            sx={{
-              width: 300,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              '& > *': {
-                m: 1,
-              },
-            }}
-          >
-            <ButtonGroup
-              orientation="vertical"
-              aria-label="vertical contained button group"
-              variant="text"
-            >
-              {Myjobs &&
-                Myjobs.jobs.map((j) => (
-                  <label key={j.id} onClick={handleJobSelection}>
-                    <Button size="medium" key={j.id} value={j.name}>{j.name}</Button>
-                  </label>
-                ))}
-            </ButtonGroup>
-          </Box>
-          {selectedJob && selectedInfo.map((elem) => (
-            <div className='jobDetails'>
-              <span>{elem.occupation} </span>
-              <span>{elem.where} </span>
-              <h3>{elem.dateStart} {' - '} {elem.dateFinished}</h3>
-              <ul>
-                <li><BiRightArrow className='icons' /> {elem.activites0}</li>
-                <li><BiRightArrow className='icons' /> {elem.activites1}</li>
-              </ul>
-            </div>
-          ))}
-          </div> */}
       </div>
-      <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}>
-        <Tabs value={value} orientation='vertical' onChange={handleChange} aria-label="Vertical tabs example" sx={{ borderRight: 1, borderColor: 'divider' }}>
+      <Box border="1px solid black" sx={{ flexGrow: 1, display: 'flex', height: 250, width: 'auto'}}>
+        <TestTabs value={value} orientation='vertical' onChange={handleChange} sx={{ display: 'flex', borderRight: 1, borderColor: 'divider' }}>
           {Myjobs &&
             Myjobs.jobs.map((j) => (
-              <Tab value={j.id} label={j.id} />
+              <TestTab value={j.id} label={j.name}/>
             ))}
-        </Tabs>
-        {selectedJob && selectedInfo.map((elem) => (
+        </TestTabs>
+        { selectedInfo.map((elem) => (
           <TabPanel value={elem.id} index={elem.id}>
-
             <span>{elem.occupation} </span>
             <span>{elem.where} </span>
             <h3>{elem.dateStart} {' - '} {elem.dateFinished}</h3>
